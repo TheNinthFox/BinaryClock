@@ -35,7 +35,6 @@ pub trait Clock {
 }
 
 struct BinaryClock {
-    time: DateTime<Local>,
     formatted: String,
     columns: [Column; 6],
 }
@@ -43,7 +42,6 @@ struct BinaryClock {
 impl BinaryClock {
     fn new() -> BinaryClock {
         BinaryClock {
-            time: Local::now(),
             formatted: Local::now().format("%H%M%S").to_string(),
             columns: [Column::new(); 6],
         }
@@ -52,8 +50,7 @@ impl BinaryClock {
 
 impl Clock for BinaryClock {
     fn update(&mut self) {
-        self.time = Local::now();
-        self.formatted = self.time.format("%H%M%S").to_string();
+        self.formatted = Local::now().format("%H%M%S").to_string();
 
         for (index, _) in self.formatted.chars().enumerate() {
             let digit = &self.formatted[index..(index+1)];
